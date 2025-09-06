@@ -111,8 +111,8 @@ Fraud distribution peaks among **25–45 year-olds**, matching normal customer a
 1. Clone the repo:
 
 ```bash
-git clone https://github.com/NarendraReddy13/fraud-detection.git
-cd fraud-detection
+git clone https://github.com/NarendraReddy13/E-Commerce_Fraud_Detection.git
+cd E-Commerce_Fraud_Detection
 ```
 
 2. Install dependencies:
