@@ -1,0 +1,12 @@
+python (recommended 3.10 or 3.11)
+
+pandas
+numpy
+matplotlib
+seaborn
+scikit-learn
+xgboost
+catbooost
+
+dataset link:
+https://www.kaggle.com/datasets/shriyashjagtap/fraudulent-e-commerce-transactions
