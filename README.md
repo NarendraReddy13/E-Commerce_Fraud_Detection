@@ -1,86 +1,71 @@
-# E-Commerce_Fraud_Detection
-# Fraud Detection using Machine Learning
+# Fraud Detection in E-Commerce Transactions 🛒🔍
 
 ## 📌 Project Overview
 
-This project focuses on detecting fraudulent transactions using a
-dataset of **1,472,952 rows**.\
-Multiple machine learning models were applied, and their performance was
-evaluated using accuracy, classification reports, ROC-AUC, and confusion
-matrices.\
-Additionally, exploratory data analysis (EDA) was performed to
-understand fraud patterns across various features.
+This project focuses on detecting **fraudulent e-commerce transactions** using **machine learning and deep learning models**.
+The dataset contains over **1.47 million transactions**, labeled as **fraudulent (1)** or **non-fraudulent (0)**.
 
-------------------------------------------------------------------------
+By analyzing **transaction patterns, payment methods, product categories, customer behavior, and time-of-day effects**, this project builds models that can **accurately classify frauds in highly imbalanced data**.
 
-## 🧾 Dataset
+---
 
-Key features used for analysis and modeling include: - **IsFraudulent**
-(Target variable: 0 = Not Fraud, 1 = Fraud) - **TransactionAmount** -
-**PaymentMethod** (bank transfer, debit card, PayPal, credit card) -
-**ProductCategory** (electronics, clothing, health & beauty, etc.) -
-**TransactionHour** - **CustomerAge**
+## 📊 Dataset Details
 
-------------------------------------------------------------------------
+* **Rows:** 1,472,952
+* **Columns:**
 
-## 📊 Exploratory Data Analysis (EDA) Insights
+  * TransactionID, CustomerID, TransactionAmount, TransactionDate
+  * PaymentMethod, ProductCategory, Quantity
+  * CustomerAge, CustomerLocation, DeviceUsed, IPAddress
+  * ShippingAddress, BillingAddress
+  * **IsFraudulent (Target: 0 or 1)**
+  * AccountAgeDays, TransactionHour
 
-### Fraud vs Non-Fraud Transactions
+---
 
--   Fraudulent transactions are **rare compared to non-fraudulent
-    ones**, showing a class imbalance problem.
+## 🔍 Key Insights from Data
 
-### Transaction Amount by Fraud Status
+* **Fraud Imbalance:** Only a small portion of transactions are fraudulent (\~5%).
+* **Transaction Amounts:** Fraudulent transactions often involve **higher amounts** with many outliers.
+* **Time of Day:** Most frauds happen during **late-night/early-morning hours (0–5 AM)**.
+* **Customer Age:** Fraud distribution peaks among **25–45 year-old customers**, similar to normal transactions.
+* **Payment Methods:** Fraud is present across **bank transfer, debit card, PayPal, and credit card**, with no single method dominating.
+* **Product Categories:** Fraud is spread across **electronics, clothing, health & beauty, home & garden, toys & games**.
 
--   Fraudulent transactions generally involve **higher transaction
-    amounts** compared to non-fraudulent ones.
+---
 
-### Fraud by Payment Method
+## 🤖 Machine Learning Models Applied
 
--   Fraud occurs across all payment methods, with **similar distribution
-    patterns**.
+We experimented with **8 models** for binary classification (fraud vs. non-fraud):
 
-### Fraud by Product Category
+1. **Logistic Regression** – baseline linear classifier
+2. **Decision Tree** – interpretable tree-based model
+3. **Random Forest** – ensemble of decision trees
+4. **XGBoost** – gradient boosting with high accuracy
+5. **CatBoost** – boosting optimized for categorical features
+6. **MLP (Neural Network)** – multi-layer perceptron
+7. **HistGradientBoosting** – fast gradient boosting method
+8. **Support Vector Classifier (SVC)** – margin-based classifier
 
--   All product categories show fraud cases, but **fraud proportion
-    remains consistently low**.
+---
 
-### Fraudulent Transactions by Hour of Day
+## 📈 Model Evaluation Metrics
 
--   Fraud is **most common during late-night to early-morning hours
-    (0--5 AM)**.
+For each model, we evaluate using:
 
-### Fraud by Customer Age Distribution
-
--   Fraud is most common among **customers aged 25--45**, following the
-    same trend as non-fraudulent transactions.
-
-------------------------------------------------------------------------
-
-## 🤖 Machine Learning Models Used
-
-The following models were trained and compared: 1. **Logistic
-Regression** 2. **Decision Tree** 3. **Random Forest** 4. **XGBoost** 5.
-**CatBoost** 6. **Neural Network (MLP)** 7. **HistGradient Boosting
-Classifier** 8. **Support Vector Machine (SVM)** (optional, slower on
-large datasets)
-
-------------------------------------------------------------------------
-
-## 📈 Evaluation Metrics
-
-Each model was evaluated using: - **Accuracy** - **Classification Report
-(Precision, Recall, F1-score)** - **ROC-AUC Score** - **Confusion Matrix
-(Visualized)**
+* ✅ **Accuracy**
+* ✅ **Precision, Recall, F1-score**
+* ✅ **ROC-AUC**
+* ✅ **Confusion Matrix**
 
 Example evaluation function:
 
-``` python
+```python
 def evaluate_model(model, X_test, y_test, model_name="Model"):
     y_pred = model.predict(X_test)
     y_proba = model.predict_proba(X_test)[:,1] if hasattr(model, "predict_proba") else None
-
-    print(f"\n {model_name} Results")
+    
+    print(f"\n🔹 {model_name} Results")
     print("-"*40)
     print("Accuracy:", round(accuracy_score(y_test, y_pred), 4))
     print("\nClassification Report:")
@@ -90,46 +75,67 @@ def evaluate_model(model, X_test, y_test, model_name="Model"):
     print("="*40)
 ```
 
-------------------------------------------------------------------------
+---
 
-## 📊 Model Comparison
+## 📊 Visualizations
 
-### Accuracy Comparison Visualization
+### Fraud vs. Non-Fraud Distribution
 
-Bar chart was used to compare accuracy across models, annotated with
-exact values.
+Shows the **class imbalance** in the dataset.
+*(Non-fraudulent transactions \~1.4M vs. fraudulent \~70K)*
 
-### Confusion Matrix Visualization
+### Transaction Amount by Fraud Status
 
-Heatmaps were plotted for each model to show **True Positive, True
-Negative, False Positive, and False Negative counts**.
+Fraudulent transactions tend to have **larger values with extreme outliers**.
 
-------------------------------------------------------------------------
+### Fraud by Payment Method
 
-## ⚡ Performance Notes
+Fraud exists across **all payment methods**, but always fewer than non-frauds.
 
--   Random Forest and XGBoost were **slow on the large dataset**,
-    requiring parameter tuning (e.g., `n_estimators`, `max_depth`) or
-    sampling for faster execution.\
--   Neural Network (MLP) was optimized by reducing hidden layers and
-    iterations for faster training.
+### Fraud by Product Category
 
-------------------------------------------------------------------------
+Fraud is spread across all categories with no dominant category.
 
-## ✅ Conclusion
+### Fraud by Hour of Day
 
--   Fraud detection is challenging due to **severe class imbalance**.\
--   Fraudulent transactions often involve **higher amounts and occur
-    late at night**.\
--   Ensemble methods like **XGBoost, Random Forest, and CatBoost**
-    provided better performance than simple models.\
--   Further improvements can be made using **SMOTE, anomaly detection,
-    or deep learning techniques**.
+Fraud is **more common at night (0–5 AM)** compared to daytime.
 
-------------------------------------------------------------------------
+### Fraud by Customer Age
 
-## 📌 Next Steps
+Fraud distribution peaks among **25–45 year-olds**, matching normal customer age distribution.
 
--   Handle **class imbalance** with oversampling/undersampling.\
--   Deploy best-performing model using **Flask API + React Dashboard**.\
--   Explore **real-time fraud detection pipeline**.
+---
+
+## 📌 How to Run the Project
+
+1. Clone the repo:
+
+```bash
+git clone https://github.com/your-username/fraud-detection.git
+cd fraud-detection
+```
+
+2. Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+3. Run Jupyter Notebook:
+
+```bash
+jupyter notebook
+```
+
+4. Train models and view results.
+
+---
+
+## 🚀 Future Improvements
+
+* Apply **SMOTE / class-weighting** to handle imbalance
+* Use **AutoML (PyCaret, H2O)** for better model selection
+* Deploy the best model as a **Flask / FastAPI API**
+* Integrate with a **real-time fraud monitoring dashboard**
+
+---
